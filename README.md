@@ -1,4 +1,4 @@
-# Framework-java Infrastructure Tech Spec
+# Framework-spring Tech Spec
 
 # **요약 (Summary)**
 
