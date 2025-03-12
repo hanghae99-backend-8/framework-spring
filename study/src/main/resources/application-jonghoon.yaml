@@ -1,6 +1,7 @@
+server:
+  port: 8884 # default 8080
+
 spring:
-  profiles:
-    active: local
   application:
     name: study
   datasource:
