@@ -33,7 +33,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/auth/signup", "/" ).permitAll()
+                        .requestMatchers("/api/member/signup", "/" ).permitAll()
 //                        .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated());
 

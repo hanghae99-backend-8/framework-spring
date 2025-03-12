@@ -23,4 +23,10 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Post> posts = new ArrayList<>();
+
+    public Member(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
 }
