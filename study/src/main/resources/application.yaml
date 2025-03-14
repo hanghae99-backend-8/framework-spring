@@ -13,3 +13,5 @@ spring:
     database: postgresql
     hibernate:
       ddl-auto: create
+  jwt:
+    secret: "32d8b6b14ede8f59257b8e0b5f1cebd97d93fba1d6aefdd14a52ce8d0551ce1e688768f0d7ad6fb54c5d5696a4e1d1e13ea8be328dd9ef1240b4f0d135179265"

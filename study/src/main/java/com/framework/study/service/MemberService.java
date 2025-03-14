@@ -2,6 +2,7 @@ package com.framework.study.service;
 
 import com.framework.study.domain.Member;
 import com.framework.study.dto.MemberRequestDto;
+import com.framework.study.dto.MemberResponseDto;
 import com.framework.study.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,40 +26,40 @@ public class MemberService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public void memberResister(MemberRequestDto memberRequestDto){
+    public MemberResponseDto memberResister(MemberRequestDto memberRequestDto){
         String username = memberRequestDto.getUsername();
         String password = memberRequestDto.getPassword();
 
         //유저명 유효성 체크
         if(username == null || !USERNAME_PATTERN.matcher(username).matches()){
             log.error("유저명 유효성 검증 실패");
-            return;
+            throw new RuntimeException("사용자명은 필수이며 4~10자 사이여야 합니다.");
         }
 
         log.info("Received username : {}" , username);
         log.info("Received username : {}" , password);
 
-        Boolean isExist = memberRepository.existsByUsername(username);
+        boolean isExist = memberRepository.existsByUsername(username);
 
         if(isExist){
             log.info("Already username : {}", username);
-            return ;
+            throw new RuntimeException("이미 사용 중인 사용자명입니다.");
         }
 
         if (password == null){
             log.error("비밀번호 미입력");
-            return;
+            throw new RuntimeException("비밀번호는 필수입니다.");
         } else if(!PASSWORD_PATTERN.matcher(password).matches()) {
             log.error("비밀번호 유효성 검증 실패");
-            return;
+            throw new RuntimeException("비밀번호는 8~15자 사이이며 영문, 숫자만 가능합니다.");
         }
         // 비밀번호 유효성 체크
 
         String newPassword = bCryptPasswordEncoder.encode(password);
 
         Member member = new Member(username, newPassword);
+        Member savedMember = memberRepository.save(member);
 
-        memberRepository.save(member);
-
+        return new MemberResponseDto(savedMember);
     }
 }
