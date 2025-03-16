@@ -25,3 +25,5 @@
 # jonghoon 프로파일로 실행
 ./gradlew bootRun --args='--spring.profiles.active=jonghoon'
 ```
+
+# git push test 입니다
