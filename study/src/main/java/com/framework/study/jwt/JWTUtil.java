@@ -1,5 +1,6 @@
 package com.framework.study.jwt;
 
+import com.framework.study.domain.Member;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -41,5 +42,6 @@ public class JWTUtil {
                 .signWith(secretKey)    // -> jwt signature
                 .compact();
     }
+
 
 }

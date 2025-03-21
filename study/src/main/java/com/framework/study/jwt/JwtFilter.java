@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-
+@Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 //        리퀘스트 당 jwt 검증하는 필터
 
@@ -28,7 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
 //        리퀘스트 헤더 Authorization 찾음
         String authorization = request.getHeader("Authorization");
-
+        log.info("authorization : {}", authorization);
         if(authorization == null || !authorization.startsWith("Bearer ")){
 //            jwt가 없는 경우에도 요청을 정상적으로 진행시키기 위해 호출하는 것
             filterChain.doFilter(request, response);
@@ -46,13 +47,13 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         String username = jwtUtil.getUsername(token);
-
+        log.info("username : {}", username);
         Member member = new Member(username, "tmpPassword");
 
         CustomMemberDetails customMemberDetails = new CustomMemberDetails(member);
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customMemberDetails, null, customMemberDetails.getAuthorities());
-
+        log.info("auth Token : {}", authToken);
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
